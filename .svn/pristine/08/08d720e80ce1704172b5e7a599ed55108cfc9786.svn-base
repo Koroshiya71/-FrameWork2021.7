@@ -1,0 +1,31 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
+
+public class InitProject : MonoBehaviour {
+    //Logo播放完动画所需的时间
+    private float showTime = 6;
+    //计时器
+    private float time = 0;
+    //异步加载的对象
+    AsyncOperation asyn;
+	void Start ()
+    {
+        StartCoroutine(LoadMainScene("MainScene"));
+	}
+    IEnumerator LoadMainScene(string sceneName)
+    {
+        asyn = SceneManager.LoadSceneAsync(sceneName);
+        asyn.allowSceneActivation = false;
+        yield return asyn;
+    }
+
+	void Update ()
+    {
+        time += Time.deltaTime;
+        if (time>= showTime&&asyn.progress>=0.9f)
+        {
+            asyn.allowSceneActivation = true;
+        }
+    }
+}

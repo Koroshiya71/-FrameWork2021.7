@@ -1,0 +1,17 @@
+﻿using UnityEngine;
+using System.Collections;
+using GameCore;
+public class NewBehaviourScript : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+       GameObject go=  ResourcesManager.Instance.LoadResources<GameObject>("UIPrefab/AudioUI1", false);
+        if (go!=null)
+        {
+            Instantiate(go);
+        }
+       
+	}
+	
+	
+}

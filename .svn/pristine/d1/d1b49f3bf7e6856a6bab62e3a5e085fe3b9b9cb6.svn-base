@@ -1,0 +1,30 @@
+﻿using UnityEngine;
+using System.Collections;
+using GameCore;
+
+public class GameStart : MonoBehaviour {
+
+    
+    void Awake()
+    {
+        if (SceneController.isFirstLoadMainScene)
+        {
+            //加载画布
+            GameObject canvas = Resources.Load<GameObject>("UIPrefab/Canvas");
+            Instantiate(canvas);
+            //加载所有到配置表到内存里面
+            DataController.Instance.LoadAllCfg();
+            //初始化数据
+            LoadData();
+            //初始化完毕
+            SceneController.isFirstLoadMainScene = false;
+        }
+       
+    }
+    private void LoadData()
+    {
+        PackData.Instance.InitPackData();
+        InforData.Instance.InitInforData();
+        PlayerData.Instance.InitPlayerData();
+    }
+}

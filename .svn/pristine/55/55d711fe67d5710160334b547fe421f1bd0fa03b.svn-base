@@ -1,0 +1,31 @@
+﻿using UnityEngine;
+using System.Collections;
+using GameCore;
+
+public class GameStart : MonoBehaviour {
+
+    
+    void Awake()
+    {
+        if (SceneController.isFirstLoadMainScene)
+        {
+            GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
+            //先把AudioManager挂上去,再挂UIManager,因为UIManager会调用到AudioManager里面的方法
+            GameTool.AddTheChildComponent<AudioManager>(canvas, "UnitySingletonObj");
+            GameTool.AddTheChildComponent<UIManager>(canvas, "UnitySingletonObj");
+            //加载所有到配置表到内存里面
+            DataController.Instance.LoadAllCfg();
+            //初始化数据
+            LoadData();
+            //初始化完毕
+            SceneController.isFirstLoadMainScene = false;
+        }
+       
+    }
+    private void LoadData()
+    {
+        PackData.Instance.InitPackData();
+        InforData.Instance.InitInforData();
+        PlayerData.Instance.InitPlayerData();
+    }
+}

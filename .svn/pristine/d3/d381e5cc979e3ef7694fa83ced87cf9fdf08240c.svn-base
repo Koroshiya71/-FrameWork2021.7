@@ -1,0 +1,54 @@
+﻿using UnityEngine;
+using System.Collections;
+
+// Unity3D游戏引擎一共支持4个音乐格式的文件:
+//.AIFF 适用于较短的音乐文件可用作游戏打斗音效
+//.WAV  适用于较短的音乐文件可用作游戏打斗音效
+//.MP3 适用于较长的音乐文件可用作游戏背景音乐
+//.OGG 适用于较长的音乐文件可用作游戏背景音乐
+namespace GameCore
+{
+    public class AudioManager :UnitySingleton<AudioManager>
+    {
+        //背景音乐(1个)
+        private AudioSource musicSource;
+        private AudioClip musicClip;
+        //音效(n个)
+        private AudioSource effectSource;
+        private AudioClip[] effectClip;
+
+        //是否打开音量
+        public bool isOpenAudio = true;
+        //默认音量
+        private float audioValue = 0.3f;
+        public void InitAudio()
+        {
+            musicSource = GameTool.GetTheChildComponent<AudioSource>(this.gameObject, "AudioSource_Music");
+            musicClip = Resources.Load<AudioClip>("Audio/MusicAudio/GameMusic");
+            musicSource.clip = musicClip;
+
+            effectSource = GameTool.GetTheChildComponent<AudioSource>(this.gameObject, "AudioSource_Effect");
+            effectClip = Resources.LoadAll<AudioClip>("Audio/EffectAudio");
+
+            if (!GameTool.HasKey("AudioValue"))
+            {
+                GameTool.SetFloat("AudioValue", audioValue);
+                musicSource.volume = audioValue;
+                effectSource.volume = audioValue;
+            }
+            else
+            {   
+                float value= GameTool.GetFloat("AudioValue");
+                musicSource.volume = value;
+                effectSource.volume = value;
+            }
+            PlayMusic();
+        }
+        //播放背景音乐的方法
+        public void PlayMusic()
+        {
+
+        }
+    }
+
+}
