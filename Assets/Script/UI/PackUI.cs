@@ -263,6 +263,7 @@ public class PackUI : BaseUI
     }
    IEnumerator InitPack()
     {
+       //等待摄像机捕获到的所有元素都渲染完毕显示出来之后
         yield return  new WaitForEndOfFrame();
         GameObject goods;
         string iconName;
